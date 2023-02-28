@@ -1,7 +1,5 @@
-export default function Success(){
-    return(
-
-
+export default function Success() {
+    return (
         <h1>KKKKKKKK</h1>
     )
 }
