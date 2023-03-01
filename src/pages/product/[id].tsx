@@ -5,6 +5,9 @@ import Image from "next/image"
 import { ImageContainer, ProductContainer, ProductDetails } from "../styles/pages/product"
 import { stripe } from "@/lib/stripe"
 import Stripe from "stripe"
+import axios from "axios"
+import { useState } from "react"
+import Head from "next/head"
 
 interface ProductProps {
     product: {
@@ -16,24 +19,40 @@ interface ProductProps {
         defaultPriceId: string
     }
 }
-
-
 export default function Product({ product }: ProductProps) {
-    function handleBuyProduct() {
-        console.log(product.defaultPriceId)
+    const [isCreatingCheckoutSession, setIsCreateChekcoutSession] = useState(false)
+    async function handleBuyProduct() {
+        try {
+            setIsCreateChekcoutSession(true)
+            const response = await axios.post('/api/checkout', {
+                priceId: product.defaultPriceId
+            })
+            const { checkoutUrl } = response.data
+            window.location.href = checkoutUrl
+        } catch (error) {
+            //Conectar com uma ferramenta de observabilidade (Datadog / Sentry)
+            setIsCreateChekcoutSession(false)
+            alert('Falha ao redireicionar ao checkout')
+
+        }
     }
     return (
-        <ProductContainer>
-            <ImageContainer>
-                <Image src={product.imageUrl} alt="camisa" width={520} height={480} />
-            </ImageContainer>
-            <ProductDetails>
-                <h1>{product.name}</h1>
-                <span>{product.price}</span>
-                <p>{product.description}</p>
-                <button onClick={handleBuyProduct}>Compar agora</button>
-            </ProductDetails>
-        </ProductContainer>
+        <>
+            <Head>
+                <title>{product.name}</title>
+            </Head>
+            <ProductContainer>
+                <ImageContainer>
+                    <Image src={product.imageUrl} alt="camisa" width={520} height={480} />
+                </ImageContainer>
+                <ProductDetails>
+                    <h1>{product.name}</h1>
+                    <span>{product.price}</span>
+                    <p>{product.description}</p>
+                    <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>Compar agora</button>
+                </ProductDetails>
+            </ProductContainer>
+        </>
     )
 }
 export const getStaticPaths: GetStaticPaths = async () => {

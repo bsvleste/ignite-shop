@@ -6,18 +6,20 @@ export const HomeContainer = styled('main',{
     width:'100%',
     marginLeft:'auto',
     minHeight:656,
-    overflow:'hidden'
+   
 })
 
-export const Product = styled('a',{
+export const Product = styled('div',{
     background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
     borderRadius:8,
     cursor:"pointer",
     position:'relative',
+    overflow:'hidden',
 
     display: 'flex',
     alignItems:'center',
     justifyContent:'center',
+    
     img:{
         objectFit:'cover'
 
@@ -49,8 +51,11 @@ export const Product = styled('a',{
             color:"$green300"
         }
     }, 
-
-    '&:hover':{
+    "&:disabled":{
+        opacity:0.6,
+        cursor:'not-allowed'
+    },
+    '&:not(:disabled):hover':{
         footer:{
             transform: 'translateY(0%)',
             opacity:1,
