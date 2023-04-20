@@ -8,7 +8,8 @@ export const ProductContainer = styled("main",{
   alignItems:'stretch',
   gap:"4rem",
   maxWidth:1180,
-  margin:'0 auto'
+  margin:'0 auto',
+  
 })
 export const ImageContainer = styled("div",{
   width:"100%",
@@ -16,7 +17,7 @@ export const ImageContainer = styled("div",{
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius:8,
   padding:"0.25rem",
-  height:656,
+  height:'auto',
   display:'flex',
   alignItems:'center',
   justifyContent:'center',
@@ -60,4 +61,13 @@ export const ProductDetails = styled("div",{
     }
   }
 
+})
+export const Cart = styled('div',{
+  position:"absolute",
+  top:0,
+  right:0,
+  height:"100%",
+  background:'$gray800',
+  width:'350px',
+  zIndex:"9999"
 })
